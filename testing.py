@@ -48,6 +48,7 @@ def main():
         path = sys.argv[1]
         strategy_module, strategy_class_name = path.rsplit('.', 1)
         strategy1 = importlib.import_module(strategy_module)
+        s1 = getattr(strategy1, strategy_class_name)()
     except IOError:
         print('An error occurred trying to read the file.')
         exit(1)
@@ -55,7 +56,6 @@ def main():
         print("NO module found")
         exit(1)
 
-    s1 = getattr(strategy1, strategy_class_name)()
     sc1 = 0
     sc2 = 0
 
