@@ -1,8 +1,11 @@
 import abc
 import enum
 
-
 class Move(enum.Enum):
+    """Výčet popisující tahy.
+
+    Jednotlivé možnosti mají jako hodnoty dvojice "písmenka ze zadání" a indexu do matice, jak je uložená v result.py."""
+
     a_safe_way = ("A", 0)
     betray = ("B", 1)
     cooperate = ("C", 2)
