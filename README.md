@@ -1,2 +1,2 @@
 # Turnaj
- A tournament in python created for M&M.
+Turnaj v Pythonu pro korespondenční seminář M&M.
