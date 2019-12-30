@@ -6,10 +6,7 @@ from player import Move
 from result import Result
 
 
-def pick_next() -> Move:
-    """Ptáme se uživatele, co chce zahrát.
-
-    Ptáme se ho tak dlouho, dokud nevybere nějaké písmenko strategie, které je uvedeno ve výčtu Move v player.py"""
+def pick_next():
     while True:
         pick = input("Pick your next move: ")
         for m in Move:
@@ -19,11 +16,7 @@ def pick_next() -> Move:
         print("pick options: A,B,C,D")
 
 
-def print_result(res: Result, sc1: int, sc2: int):
-    """Vypíše výsledek tahu.
-
-    Parametry sc1 a sc2 jsou celková skóre od začátku turnaje, parametr res je poslední výsledek.
-    """
+def print_result(res, sc1, sc2):
     print("Your move was: {}".format(res.opp_move.value[0]))
     print("Your opponent's move was: {}".format(res.my_move.value[0]))
     print("You scored {}".format(res.get_opp_score()), ", total: {}".format(sc2))
@@ -31,8 +24,7 @@ def print_result(res: Result, sc1: int, sc2: int):
     print("--------------------------->")
 
 
-def print_score(sc1: int, sc2: int):
-    """Vypíše závěrečné výsledky."""
+def print_score(sc1, sc2):
     print("THE GAME HAS ENDED")
     print("--------------------------->")
     print("You scored in total {} points.".format(sc2))
@@ -40,7 +32,6 @@ def print_score(sc1: int, sc2: int):
 
 
 def main():
-    # Chceme správný počet parametrů správných typů
     if len(sys.argv) < 2 or len(sys.argv) > 3:
         print("Argument error")
         exit(1)
@@ -53,7 +44,6 @@ def main():
         print("The second argument should be a number!")
         exit(1)
 
-    # Načteme modul se strategií (objekt strategie se uloží do s1)
     try:
         path = sys.argv[1]
         strategy_module, strategy_class_name = path.rsplit('.', 1)
@@ -66,24 +56,18 @@ def main():
         exit(1)
 
     s1 = getattr(strategy1, strategy_class_name)()
-    # Inicializace skóre obou hráčů
     sc1 = 0
     sc2 = 0
 
-    # Provedeme `iterations` kol
     for i in range(iterations):
-        # Zeptáme se hráčů, co hrají
         move1 = s1.next_move()
         move2 = pick_next()
-        # Vyhodnotíme kolo
         res = Result(move1, move2)
         sc1 += res.get_my_score()
         sc2 += res.get_opp_score()
-        # Sdělíme oběma hráčům, co se stalo
         print_result(res, sc1, sc2)
         s1.reward(res)
 
-    # Vypíšeme závěrečné výsledky
     print_score(sc1, sc2)
 
 
